@@ -1,7 +1,7 @@
 #/usr/bin/perl
 
-use lib "./lib";
-use lib "./src";
+use lib "../lib";
+use lib "../src";
 use lib "./tests";
 
 BEGIN {
