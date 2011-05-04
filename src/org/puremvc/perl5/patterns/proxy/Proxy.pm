@@ -69,7 +69,15 @@ __END__
 
 C<< org::puremvc::perl5::patterns::proxy::Proxy >>
 
-B<ISA> L<org::puremvc::perl5::patterns::observer::Notifier|Notifier>
+B<inherits:>
+
+=over 4
+
+=item *
+
+L<org::puremvc::perl5::patterns::observer::Notifier|Notifier>
+
+=back
 
 Implementation of the pureMVC C<< Proxy >> pattern.
 
@@ -144,23 +152,11 @@ Encapsulate interaction with local or remote services used to fetch and persist 
 
 =over 4
 
-=item *
+=item new
 
-C<< new( $proxy_name, $data ) >>
+C<< sub new( $proxy_name, $data ); >>
 
-Constructor. Pass it 2 arguments :
-
-=over 8
-
-=item *
-
-C<< $proxy_name >> : name by which any retrieval, removal, or existence checking will be achieved in your application.
-
-=item *
-
-C<< $data >> : optional object instance representing business data.
-
-=back
+Constructor.
 
 A C<< Proxy >> might simply manage a reference to a local data object, in which case interacting with it might involve setting and getting of its data in synchronous fashion.
 
@@ -191,33 +187,71 @@ It is possible to register several instances of the same C<< Proxy >> class. You
   my $other_proxy = com::me::myapp::proxies::AProxy->new( "SOME_OTHER_NAME" );
   $facade->registerProxy($other_proxy);
 
-=item *
+B<Parameters>
 
-C<< getProxyName() >>
-
-Returns the name by which a C<< Proxy >> was registered with the L<model|Model>.
+=over 8
 
 =item *
 
-C<< setData( $data ) >>
+C<< $proxy_name - String >>
+
+Name by which any retrieval, removal, or existence checking will be achieved in your application.
+
+=item *
+
+C<< $data - * >>
+
+Object instance representing business data - Optional.
+
+=back
+
+=item getProxyName
+
+C<< sub getProxyName(); >>
+
+C<< Proxy >> name getter.
+
+B<Returns>
+
+C<< String >> - The C<< proxy's >> name.
+
+=item setData
+
+C<< sub setData( $data ); >>
 
 C<< Proxy >>'s local data setter.
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< getData( $data ) >>
+C<< $data - * >>
+
+Object instance or scalar representing business data.
+
+=back
+
+=item getData
+
+C<< sub getData( $data ); >>
 
 C<< Proxy >>'s local data getter.
 
-=item *
+B<Returns>
 
-C<< onRegister() >>
+C<< * >> - C<< Proxy >>'s local data object or scalar.
+
+=item onRegister
+
+C<< sub onRegister(); >>
 
 Called by the L<model|Model> when the C<< Proxy >> is registered.
 
-=item *
+=item onRemove
 
-C<< onRemove() >>
+C<< sub onRemove(); >>
 
 Called by the L<model|Model> when the C<< Proxy >> is removed.
 

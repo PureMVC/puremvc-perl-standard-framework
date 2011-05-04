@@ -102,29 +102,11 @@ PureMVC C<< Notification >>s follow a 'Publish/Subscribe' pattern. PureMVC class
 
 =over 4
 
-=item *
+=item new
 
-C<< org::puremvc::perl5::patterns::observer::Notification->new( $notification_name, $body, $type ) >>
+C<< sub new( $notification_name, $body, $type ); >>
 
 Constructor.
-
-Parameters:
-
-=over 8
-
-=item *
-
-C<< $notification_name >>: name of the C<< Notification >>.
-
-=item *
-
-C<< $body >>: body or (business data) of the C<< Notification >>. Can be any object or scalar. - Optional
-
-=item *
-
-C<< $type >>: type of the C<< Notification >>. This data can be useful to distinguish several types of the same C<< Notification >>. Usually is a string but could be any other object or scalar. - Optional
-
-=back
 
 You usually do not call C<< Notification >> directly but use L<Facade|Facade> C<< sendNotification >> method to create and send a C<< Notification >>:
 
@@ -133,35 +115,95 @@ You usually do not call C<< Notification >> directly but use L<Facade|Facade> C<
   # Create and send a notification called "SayHelloWorld" with no body nor type data passed 
   $self->sendNotification("SayHelloWorld");
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::patterns::observer::Notification->getName() >>
+C<< $notification_name - String >>
+
+Name of the constructed C<< Notification >> instance.
+
+=item *
+
+C<< $body - * >>
+
+Body or (business data) of the C<< Notification >>. Can be any object or scalar. - Optional
+
+=item *
+
+C<< $type - * >>
+
+Type of the C<< Notification >>. This data can be useful to distinguish several types of the same C<< Notification >>. Usually is a string but could be any other object or scalar. - Optional
+
+=back
+
+=item getName
+
+C<< sub getName(); >>
 
 C<< Notification >> name getter.
 
-=item *
+B<Returns>
 
-C<< org::puremvc::perl5::patterns::observer::Notification->setBody( $body ) >>
+C<< String >> - The name of the C<< Notification >>.
+
+=item setBody
+
+C<< sub setBody( $body ); >>
 
 C<< Notification >> body setter.
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::patterns::observer::Notification->getBody() >>
+C<< $body - * >>
+
+Body or (business data) of the C<< Notification >>. Can be any object or scalar. - Optional
+
+=back
+
+=item getBody
+
+C<< getBody() >>
 
 C<< Notification >> body getter.
 
-=item *
+B<Returns>
 
-C<< org::puremvc::perl5::patterns::observer::Notification->setType( $type ) >>
+C<< * >> - The body of the C<< Notification >>, scalar or object.
+
+=item setType
+
+C<< sub setType( $type ); >>
 
 C<< Notification >> type setter.
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::patterns::observer::Notification->getType() >>
+C<< $type - * >>
+
+Type of the C<< Notification >>. This data can be useful to distinguish several types of the same C<< Notification >>. Usually is a string but could be any other object or scalar. - Optional
+
+=back
+
+=item getType
+
+C<< sub getType(); >>
 
 C<< Notification >> type getter.
+
+B<Returns>
+
+C<< * >> - The type of the C<< Notification >>, scalar or object.
 
 =back
 

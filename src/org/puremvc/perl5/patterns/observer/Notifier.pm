@@ -56,16 +56,16 @@ The C<< Notifier >> class, which all of the above mentioned classes extend, prov
 
 =over 4
 
-=item *
+=item sendNotification
 
-C<< sendNotification( $notification_name, $body, $type ) >>
+C<< sub sendNotification( $notification_name, $body, $type ); >>
 
 Keeps us from having to construct new L<Notification|Notification> instances in our implementation code.
 
   # Create and send a notification called "SayHelloWorld" with no body nor type data passed 
   $self->sendNotification("SayHelloWorld");
 
-Parameters:
+B<Parameters>
 
 =over 8
 
@@ -89,9 +89,7 @@ C<< $type >>: type of the L<notification|Notification>. This data can be useful 
 
 =over 4
 
-=item *
-
-C<< _facade >>
+=item _facade
 
 PureMVC C<< Notifier >> subclasses ( L<Mediator|Mediator>, L<Proxy|Proxy>, L<SimpleCommand|SimpleCommand>, L<MacroCommand|MacroCommand> ) usually do not need to access this property as they will access application L<Facade|Facade> singleton using the following instruction:
 

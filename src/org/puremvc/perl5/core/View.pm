@@ -94,7 +94,6 @@ sub removeObserver {
 
 }
 
-
 #**********************
 sub registerMediator {
   my ( $self, $mediator ) = @_;
@@ -179,10 +178,6 @@ Notifiying L<mediators|Mediator> when they are registered or removed.
 
 =item *
 
-Calling L<commands'|SimpleCommand> C<< execute >> method, passing in the L<notification|Notification>. 
-
-=item *
-
 Managing the L<observers|Observer> lists for each L<notification|Notification> in the application.
 
 =item *
@@ -205,44 +200,96 @@ Notifying the L<observers|Observer> of a given L<notification|Notification> when
 
 =over 4
 
-=item *
+=item getInstance
 
-C<< org::puremvc::perl5::core::View->getInstance() >>
+C<< sub getInstance(); >>
 
 Returns the singleton instance of the C<< View >>.
 
-=item *
+B<Returns>
 
-C<< org::puremvc::perl5::core::View->initializeView() >>
+C<< org::puremvc::perl5::core::View >> - The singleton instance of the C<< View >>.
+
+=item  initializeView
+
+C<< sub initializeView(); >>
 
 Initialize the singleton instance of the C<< View >>.
 This method is automatically called during singleton instantiation.
 
 This is where you will achieve your C<< View >> subclass specific initializations if your application actually overrides pureMVC C<< View >> class.
 
+=item registerObserver
+
+C<< sub registerObserver( $notification_name, $observer ); >>
+
+Register an L<observer|Observer> to be notified of L<notifications|Notification> with a given name.
+
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::core::View->registerObserver( $notification_name, $observer ) >>
+C<< $notification_name - String >>
 
-Register an L<observer|Observer> to be notified of L<notification|Notification> with a given name.
+Name of the L<notifications|Notification> the registered observer will be notified of.
 
 =item *
 
-C<< org::puremvc::perl5::core::View->notifyObservers( $notification ) >>
+C<< $observer - org::puremvc::perl5::patterns::observer::Observer >>
+
+The registered observer with the C<< View >>. 
+
+=back
+
+=item notifyObservers
+
+C<< sub notifyObservers( $notification ); >>
 
 Notify the L<observer|Observer> for a particular L<notification|Notification>.
 
 All previously attached L<observer|Observer> for this L<notification's|Notification> list are notified and are passed a reference to the L<notification|Notification> in the order in which they were registered.
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::core::View->removeObserver( $notification_name, $observer ) >>
+C<< $notification - org::puremvc::perl5::patterns::observer::Notification >>
+
+Instance of L<Notification|Notification> the observers will receive as a parameter when notified.
+
+=back
+
+=item removeObserver
+
+C<< sub removeObserver( $notification_name, $observer ); >>
 
 Remove the L<observer|Observer> from the observers list for a given L<notification|Notification> name.
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::core::View->registerMediator( $mediator ) >>
+C<< $notification_name - String >>
+
+Name of the L<notifications|Notification> the registered observer will be removed from.
+
+=item *
+
+C<< $observer - org::puremvc::perl5::patterns::observer::Observer >>
+
+The registered observer with the C<< View >> to be removed. 
+
+=back
+
+=item registerMediator
+
+C<< sub registerMediator( $mediator ); >>
 
 Register a L<Mediator|Mediator> instance with the C<< View >>. During registration L<mediator's|Mediator> C<< getMediatorName >> method is called by C<< View >> singleton to map C<< $mediator >> instance with its name.
 
@@ -252,23 +299,83 @@ Registers the L<mediator|Mediator> so that it can be retrieved by name, and furt
 
 If the L<mediator|Mediator> returns any L<notification|Notification> name to be notified about, an L<observer|Observer> is created encapsulating the L<mediator|Mediator> instance's C<< handleNotification >> method and registering it as an L<observer|Observer> for all L<notifications|Notification> the L<mediator|Mediator> is interested in.
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::core::View->retrieveMediator( $mediator_name ) >>
+C<< $mediator - org::puremvc::perl5::patterns::mediator::Mediator >>
+
+A L<Mediator|Mediator> instance to register with the C<< View >>.
+
+=back
+
+=item retrieveMediator
+
+C<< sub retrieveMediator( $mediator_name ); >>
 
 Retrieve from the C<< View >> a L<mediator|Mediator> registered with name C<< $mediator_name >>.
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::core::View->removeMediator( $mediator_name ) >>
+C<< $mediator_name - String >>
+
+Name of the L<mediator|Mediator> to retrieve from the C<< View >>.
+
+=back
+
+B<Returns>
+
+C<< org::puremvc::perl5::patterns::mediator::Mediator >> - The L<Mediator|Mediator> instance retrieved from the C<< View >>.
+
+=item removeMediator
+
+C<< sub removeMediator( $mediator_name ); >>
 
 Remove from the C<< View >> a L<mediator|Mediator> registered with name C<< $mediator_name >>.
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::core::View->hasMediator( $mediator_name ) >>
+C<< $mediator_name - String >>
+
+Name of the L<mediator|Mediator> to remove from the C<< View >>.
+
+=back
+
+B<Returns>
+
+C<< org::puremvc::perl5::patterns::mediator::Mediator >> - The L<Mediator|Mediator> instance removed from the C<< View >>.
+
+=item hasMediator
+
+C<< sub hasMediator( $mediator_name ); >>
 
 Check whether a L<mediator|Mediator> is registered with name C<< $mediator_name >> or not.
+
+B<Parameters>
+
+=over 8
+
+=item *
+
+C<< $mediator_name - String >>
+
+Name of the L<mediator|Mediator> to check.
+
+=back
+
+B<Returns>
+
+C<< scalar >> - 1 if a L<Mediator|Mediator> instance is registered with the C<< View >> with name C<< $mediator_name >>, "" otherwise.
 
 =back
 
@@ -276,9 +383,7 @@ Check whether a L<mediator|Mediator> is registered with name C<< $mediator_name 
 
 =over 4
 
-=item *
-
-C<< _mediators >>
+=item _mediators
 
 Array reference on registered L<mediators|Mediator> with the C<< View >>. You should not have to access it and I<must not> update it in normal usage.
 
@@ -286,9 +391,7 @@ Array reference on registered L<mediators|Mediator> with the C<< View >>. You sh
 
 =over 4
 
-=item *
-
-C<< _observers >>
+=item _observers
 
 Array reference on registered L<observers|Observer> with the C<< View >>. You should not have to access it and I<must not> update it in normal usage.
 

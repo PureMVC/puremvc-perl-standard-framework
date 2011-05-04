@@ -130,15 +130,19 @@ The simplest way is to subclass L<Facade|Facade> class, and use its C<< initiali
 
 =over 4
 
-=item *
+=item getInstance
 
-C<< org::puremvc::perl5::core::Controller->getInstance() >>
+C<< sub getInstance(); >>
 
 Returns the singleton instance of the C<< Controller >>.
 
-=item *
+B<Returns>
 
-C<< org::puremvc::perl5::core::Controller->initializeController() >>
+C<< org::puremvc::perl5::core::Controller >> - The singleton instance of the C<< Controller >>.
+
+=item initializeController
+
+C<< sub initializeController(); >>
 
 Initialize the singleton instance of the C<< Controller >>.
 This method is automatically called during singleton instantiation.
@@ -152,9 +156,9 @@ Note that if you are using a subclass of L<View|View> in your application, you s
     $self->{_view} = com::me::myapp::MyView->getInstance() unless exists $self->{_view};
   }
 
-=item *
+=item registerCommand
 
-C<< org::puremvc::perl5::core::Controller->registerCommand( $notification_name, $command_class_ref ) >>
+C<< sub registerCommand( $notification_name, $command_class_ref ); >>
 
 Register a particular L<command|SimpleCommand> class as the handler for a particular L<notification|Notification>.
 
@@ -164,23 +168,81 @@ If a L<command|SimpleCommand> has already been registered to handle L<notificati
 
 The L<observer|Observer> for the new L<command|SimpleCommand> is only created if this the first time a L<command|SimpleCommand> has been registered for this L<notification|Notification> name.
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::core::Controller->executeCommand( $notification ) >>
+C<< $notification_name - String >>
+
+Name of the L<notifications|Notification> the registered C<< Command >> will handle.
+
+=item *
+
+C<< $command_class_ref - String >>
+
+Class name of the C<< Command >> to handle L<notification|Notification> called C<< $notification_name >>. 
+
+=back
+
+=item executeCommand
+
+C<< sub executeCommand( $notification ); >>
 
 If a L<command|SimpleCommand> has previously been registered to handle a given L<notification|Notification>, then it is executed.
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::core::Controller->removeCommand( $notification_name ) >>
+C<< $notification - org::puremvc::perl5::patterns::observer::Notification >>
+
+The L<notification|Notification> to handle.
+
+=back
+
+=item removeCommand
+
+C<< sub removeCommand( $notification_name ); >>
 
 Remove a previously registered L<command|SimpleCommand> for a given L<notification|Notification> name.
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::core::Controller->hasCommand( $notification_name ) >>
+C<< $notification_name - String >>
 
-Check if a L<command|SimpleCommand> is registered for a given L<notification|Notification> name.
+Name of the L<notification|Notification> for which to remove a registered L<command|SimpleCommand>.
+
+=back
+
+=item hasCommand
+
+C<< sub hasCommand( $notification_name ); >>
+
+Check whether a L<command|SimpleCommand> is registered for a given L<notification|Notification> name.
+
+B<Parameters>
+
+=over 8
+
+=item *
+
+C<< $notification_name - String >>
+
+Name of the L<notification|Notification> for which to check a registered L<command|SimpleCommand>.
+
+=back
+
+B<Returns>
+
+C<< scalar >> - 1 if a L<Command|SimpleCommand> class is registered with the C<< Controller >> for L<notifications|Notification> named C<< $notification_name >>, "" otherwise.
 
 =back
 
@@ -188,9 +250,11 @@ Check if a L<command|SimpleCommand> is registered for a given L<notification|Not
 
 =over 4
 
-=item *
+=item _view
 
-C<< _commands >>
+L<View|View> attached to the C<< Controller >>. You should not have to access it and I<must not> update it in normal usage.
+
+=item _commands
 
 Array reference on registered L<commands|SimpleCommand> with the C<< Controller >>. You should not have to access it and I<must not> update it in normal usage.
 

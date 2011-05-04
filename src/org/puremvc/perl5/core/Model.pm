@@ -117,45 +117,109 @@ Typically, you use a L<command|SimpleCommand> to create and register L<Proxy|Pro
 
 =over 4
 
-=item *
+=item getInstance
 
-C<< org::puremvc::perl5::core::Model->getInstance() >>
+C<< sub getInstance(); >>
 
 Returns the singleton instance of the C<< Model >>.
 
-=item *
+B<Returns>
 
-C<< org::puremvc::perl5::core::Model->initializeModel() >>
+C<< org::puremvc::perl5::core::Model >> - The singleton instance of the C<< Model >>.
+
+=item initializeModel
+
+C<< sub initializeModel(); >>
 
 Initialize the singleton instance of the C<< Model >>.
 This method is automatically called during singleton instantiation.
 This is where you will achieve your C<< Model >> subclass specific initializations if your application actually overrides pureMVC C<< Model >> class.
 
-=item *
+=item registerProxy
 
-C<< org::puremvc::perl5::core::Model->registerProxy( $proxy ) >>
+C<< sub registerProxy( $proxy ); >>
 
 Register a L<Proxy|Proxy> instance with the C<< Model >>. During registration L<proxy's|Proxy> C<< getProxyName >> method is called by C<< Model >> singleton to map C<< $proxy >> instance with its name.
 
 Any registered L<proxy|Proxy> is afterwards retrieved, removed or checked by its name.
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::core::Model->retrieveProxy( $proxy_name ) >>
+C<< $proxy - org::puremvc::perl5::patterns::proxy::Proxy >>
+
+A L<Proxy|Proxy> instance to register with the C<< Model >>.
+
+=back
+
+=item retrieveProxy
+
+C<< sub retrieveProxy( $proxy_name ); >>
 
 Retrieve from the C<< Model >> a L<proxy|Proxy> registered with name C<< $proxy_name >>.
 
-=item *
+B<Parameters>
 
-C<< org::puremvc::perl5::core::Model->removeProxy( $proxy_name ) >>
-
-Remove from the C<< Model >> a L<proxy|Proxy> registred with name C<< $proxy_name >>.
+=over 8
 
 =item *
 
-C<< org::puremvc::perl5::core::Model->hasProxy( $proxy_name ) >>
+C<< $proxy_name - String >>
+
+Name of the L<proxy|Proxy> to retrieve from the C<< Model >>.
+
+=back
+
+B<Returns>
+
+C<< org::puremvc::perl5::patterns::proxy::Proxy >> - The L<Proxy|Proxy> instance retrieved from the C<< Model >>.
+
+=item removeProxy
+
+C<< sub removeProxy( $proxy_name ); >>
+
+Remove from the C<< Model >> a L<proxy|Proxy> registered with name C<< $proxy_name >>.
+
+B<Parameters>
+
+=over 8
+
+=item *
+
+C<< $proxy_name - String >>
+
+Name of the L<proxy|Proxy> to remove from the C<< Model >>.
+
+=back
+
+B<Returns>
+
+C<< org::puremvc::perl5::patterns::proxy::Proxy >> - The L<Proxy|Proxy> instance removed from the C<< Model >>.
+
+=item hasProxy
+
+C<< sub hasProxy( $proxy_name ); >>
 
 Check whether a L<proxy|Proxy> is registered with name C<< $proxy_name >> or not.
+
+B<Parameters>
+
+=over 8
+
+=item *
+
+C<< $proxy_name - String >>
+
+Name of the L<proxy|Proxy> to check.
+
+=back
+
+B<Returns>
+
+C<< scalar >> - 1 if a L<Proxy|Proxy> instance is registered with the C<< Model >> with name C<< $proxy_name >>, "" otherwise.
 
 =back
 
@@ -163,9 +227,7 @@ Check whether a L<proxy|Proxy> is registered with name C<< $proxy_name >> or not
 
 =over 4
 
-=item *
-
-C<< _proxies >>
+=item _proxies
 
 Array reference on registered L<Proxies|Proxy> with the C<< Model >>. You should not have to access it and I<must not> update it in normal usage.
 

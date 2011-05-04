@@ -58,7 +58,15 @@ __END__
 
 C<< org::puremvc::perl5::patterns::command::MacroCommand >>
 
-B<ISA> L<org::puremvc::perl5::patterns::observer::Notifier|Notifier>
+B<inherits:>
+
+=over 4
+
+=item *
+
+L<org::puremvc::perl5::patterns::observer::Notifier|Notifier>
+
+=back
 
 A Base pureMVC C<< Command >> concept implementation that executes other C<< commands >>.
 
@@ -88,7 +96,7 @@ A Base pureMVC C<< Command >> concept implementation that executes other C<< com
 
 =head1 DESCRIPTION
 
-A C<< MacroCommand >> maintains a list of <Commands|SimpleCommand> class names called I<SubCommands>.
+A C<< MacroCommand >> maintains a list of L<Commands|SimpleCommand> class names called I<SubCommands>.
 
 When C<< execute >> is called, the C<< MacroCommand >> instantiates and calls C<< execute >> on each of its I<SubCommands> in the order they where registered.
 
@@ -104,9 +112,9 @@ A I<SubCommand> can be a L<SimpleCommand|SimpleCommand> or another C<< MacroComm
 
 =over 4
 
-=item *
+=item initializeMacroCommand
 
-C<< initializeMacroCommand() >>
+C<< sub initializeMacroCommand(); >>
 
 Initialize the C<< MacroCommand >>.
 
@@ -114,21 +122,45 @@ In your subclass, override this method to register the C<< MacroCommand's >> I<S
 
   $self->addSubCommand( "com::me::myapp::commands::ASubCommand" );
 
-=item *
+=item addSubCommand
 
-C<< addSubCommand( $command_class_ref ) >>
+C<< sub addSubCommand( $command_class_ref ); >>
 
 Register a I<SubCommand> to the C<< MacroCommand >>'s list.
 
 The I<SubCommands> will be called in First In/First Out (FIFO) order.
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< execute( $notification ) >>
+C<< $command_class_ref - String >>
+
+Name of the I<SubCommand> to register to the C<< MacroCommand >>'s list.
+
+=back
+
+=item execute
+
+C<< sub execute( $notification ); >>
 
 Execute the C<< MacroCommand >>'s I<SubCommands>.
 
 The I<SubCommands> will be called in First In/First Out (FIFO) order.
+
+B<Parameters>
+
+=over 8
+
+=item *
+
+C<< $notification - org::puremvc::perl5::patterns::observer::Notification >>
+
+The L<notification|Notification> to handle by each C<< MacroCommand >>'s I<SubCommand>.
+
+=back
 
 =back
 
@@ -136,9 +168,7 @@ The I<SubCommands> will be called in First In/First Out (FIFO) order.
 
 =over 4
 
-=item *
-
-C<< _subcommands >>
+=item _subcommands
 
 Array reference on registered I<SubCommands> with the C<< MacroCommand >>. You should not have to access it and I<must not> update it in normal usage.
 

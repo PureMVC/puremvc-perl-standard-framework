@@ -115,67 +115,105 @@ Provide a method for notifying the interested object.
 
 =over 8
 
-=item *
+=item new
 
-C<< new( $notify_method, $notify_context ) >>
+C<< sub new( $notify_method, $notify_context ); >>
 
 Constructor.
 
 C<< $notify_method >> notification method on C<< $notify_context >> interested object should take one parameter of type L<Notification|Notification>.
 
-Parameters:
+B<Parameters>
 
 =over 8
 
 =item *
 
-C<< $notify_method >>: method inside C<< $notify_context >> object which is called when notifying C<< $notify_context >>.
+C<< $notify_method - String >>
+
+Method B<name> inside C<< $notify_context >> object which is called when notifying C<< $notify_context >>.
 
 =item *
 
-C<< $notify_context >>: object interested in being notified.
+C<< $notify_context - * >>
+
+Object interested in being notified.
 
 =back
 
-=item *
+=item notifyObserver
 
-C<< notifyObserver( $notification ) >>
+C<< sub notifyObserver( $notification ); >>
 
 Notifies the interested object.
 
-Parameters:
+B<Parameters>
 
 =over 8
 
 =item *
 
-C<< $notification >>: the L<notification|Notification> to pass to the interested object's notification method.
+C<< $notification - org::puremvc::perl5::patterns::observer::Notification >>
+
+The L<notification|Notification> to pass to the interested object's notification method.
 
 =back
 
-=item *
+=item setNotifyMethod
 
-C<< setNotifyMethod( $notify_method ) >>
+C<< sub setNotifyMethod( $notify_method ); >>
 
 L<Notification|Notification> method setter.
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< getNotifyMethod() >>
+C<< $notify_method - String >>
+
+Method B<name> inside C<< context >> object which is called when notifying C<< context >> object.
+
+=back
+
+=item getNotifyMethod
+
+C<< sub getNotifyMethod(); >>
 
 L<Notification|Notification> method getter.
 
+B<Returns>
+
+C<< String >> - Method B<name> inside C<< context >> object which is called when notifying C<< context >> object.
+
+=item setNotifyContext
+
+C<< sub setNotifyContext( $notify_context ); >>
+
+L<Notification|Notification> C<< context >> setter.
+
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< setNotifyContext( $notify_context ) >>
+C<< $notify_context - * >>
 
-L<Notification|Notification> context setter.
+Object interested in being notified.
 
-=item *
+=back
 
-C<< getNotifyContext() >>
+=item getNotifyContext
 
-L<Notification|Notification> context getter.
+C<< sub getNotifyContext(); >>
+
+L<Notification|Notification> C<< context >> getter.
+
+B<Returns>
+
+C<< * >> - Object interested in being notified.
 
 =back
 

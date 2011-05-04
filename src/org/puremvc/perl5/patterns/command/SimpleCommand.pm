@@ -36,7 +36,15 @@ __END__
 
 C<< org::puremvc::perl5::patterns::command::SimpleCommand >>
 
-B<ISA> L<org::puremvc::perl5::patterns::observer::Notifier|Notifier>
+B<inherits:>
+
+=over 4
+
+=item *
+
+L<org::puremvc::perl5::patterns::observer::Notifier|Notifier>
+
+=back
 
 Base pureMVC C<< Command >> concept implementation.
 
@@ -84,15 +92,27 @@ Your C<< Command >> subclasses should override the C<< execute >> method to impl
 
 =over 4
 
-=item *
+=item execute
 
-C<< org::puremvc::perl5::patterns::command::SimpleCommand->execute( $notification ) >>
+C<< sub execute( $notification ); >>
 
 Fulfill the use-case initiated by the given L<notification|Notification>.
 
-In the C<< Command >> pattern, an application use-case typically begins with some user action, which results in a L<notification|Notification> being broadcast, which is handled by business logic in the C<< execute >> method of an C<< Command >>.
+In the C<< Command >> pattern, an application use-case typically begins with some user action, which results in a L<notification|Notification> being broadcast, which is handled by business logic in the C<< execute >> method of a C<< Command >>.
 
 Inside this method, L<Proxy|Proxy>, L<Mediator|Mediator> registration, retrieval, removal is achieved to insure business logic linked to the L<notification|Notification>.
+
+B<Parameters>
+
+=over 8
+
+=item *
+
+C<< $notification - org::puremvc::perl5::patterns::observer::Notification >>
+
+The L<notification|Notification> to handle.
+
+=back
 
 =back
 

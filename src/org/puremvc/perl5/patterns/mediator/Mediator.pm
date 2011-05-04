@@ -78,7 +78,15 @@ __END__
 
 C<< org::puremvc::perl5::patterns::mediator::Mediator >>
 
-B<ISA> L<org::puremvc::perl5::patterns::observer::Notifier|Notifier>
+B<inherits:>
+
+=over 4
+
+=item *
+
+L<org::puremvc::perl5::patterns::observer::Notifier|Notifier>
+
+=back
 
 Base pureMVC C<< Mediator >> concept implementation.
 
@@ -172,23 +180,9 @@ The C<< View >> will then create an L<Observer|Observer> object encapsulating th
 
 =over 4
 
-=item *
+=item new
 
-C<< org::puremvc::perl5::patterns::mediator::Mediator->new( $mediator_name, $view_component ) >>
-
-Constructor. Pass it 2 arguments :
-
-=over 4
-
-=item *
-
-C<< $mediator_name >> : name by which any retrieval, removal, or existence checking will be achieved in your application.
-
-=item *
-
-C<< $view_component >> : optional object instance representing an external component handled by your C<< Mediator >>.
-
-=back
+C<< sub new( $mediator_name, $view_component ); >>
 
 It is common to define a default name for your C<< Mediator >> class implementation by mean of a constant:
 
@@ -215,41 +209,97 @@ It is possible to register several instances of the same C<< Mediator >> class. 
   my $other_mediator = com::me::myapp::mediators::AMediator->new( "SOME_OTHER_NAME" );
   $facade->registerMediator($other_mediator);
 
+B<Parameters>
+
+=over 4
+
 =item *
 
-C<< org::puremvc::perl5::patterns::mediator::Mediator->getMediatorName() >>
+C<< $mediator_name - String >> : name by which any retrieval, removal, or existence checking will be achieved in your application.
+
+=item *
+
+C<< $view_component - * >> : object instance representing an external component handled by your C<< Mediator >> - Optional.
+
+=back
+
+=item getMediatorName
+
+C<< sub getMediatorName(); >>
 
 Returns the name by which a C<< Mediator >> was registered with the C<< View >>.
 
+B<Returns>
+
+C<< String >> - The name by which a C<< Mediator >> was registered with the C<< View >>.
+
+=item getViewComponent
+
+C<< sub getViewComponent(); >>
+
+Returns the C<< Mediator's >> view component.
+
+B<Returns>
+
+C<< * >> - The view component.
+
+=item setViewComponent
+
+C<< sub setViewComponent( $view_component ); >>
+
+Sets the C<< Mediator's >> view component.
+
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::patterns::mediator::Mediator->setViewComponent( $view_component ) >>
+C<< $view_component - * >>
 
-C<< Mediator >> view component setter.
+Any object representing the view component.
 
-=item *
+=back
 
-C<< org::puremvc::perl5::patterns::mediator::Mediator->listNotificationInterests() >>
+=item listNotificationInterests
+
+C<< sub listNotificationInterests(); >>
 
 Returns an array reference holding the L<notification|Notification> names the C<< Mediator >> is interested in being notified of.
 
 When your application will dispatch a L<notification|Notification> whose name matches one of those in the array, the C<< handleNotification >> method of the C<< Mediator >> will be automatically called.
 
-=item *
+B<Returns>
 
-C<< org::puremvc::perl5::patterns::mediator::Mediator->handleNotification( $notification ) >>
+C<< \ARRAY >> - The reference on the array holding the L<notifications'|Notification> name. 
+
+=item handleNotification
+
+C<< sub handleNotification( $notification ); >>
 
 This method is automatically called by the L<view|View> if C<< $notification >>'s name is one of those returned by C<< listNotificationInterests >> method.
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::patterns::mediator::Mediator->onRegister() >>
+C<< $notification - org::puremvc::perl5::patterns::observer::Notification >>
+
+The L<notification|Notification> to handle.
+
+=back
+
+=item onRegister
+
+C<< sub onRegister(); >>
 
 Called by the L<view|View> when the C<< Mediator >> is registered.
 
-=item *
+=item onRemove
 
-C<< org::puremvc::perl5::patterns::mediator::Mediator->onRemove() >>
+C<< sub onRemove(); >>
 
 Called by the L<view|View> when the C<< Mediator >> is removed.
 

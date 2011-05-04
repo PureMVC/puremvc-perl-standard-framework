@@ -322,26 +322,30 @@ B<Using the C<< Facade >> interface methods should be sufficient for your applic
 
 =over 4
 
-=item *
+=item getInstance
 
-C<< org::puremvc::perl5::patterns::facade::Facade->getInstance() >>
+C<< sub getInstance(); >>
 
 Returns the singleton instance of the Facade.
 During first call, C<< Facade >> instance is created.
 Future calls just return already created instance.
 Facade creation process includes L<Model|Model>, L<View|View> & L<Controller|Controller> singletons initialization (see C<< initializeFacade >> method).
 
-=item *
+B<Returns>
 
-C<< org::puremvc::perl5::patterns::facade::Facade->initializeFacade() >>
+C<< org::puremvc::perl5::patterns::facade::Facade >> - The singleton instance of the C<< Facade >>.
+
+=item initializeFacade
+
+C<< sub initializeFacade(); >>
 
 Automatically called during C<< getInstance >> method first run (C<< Facade >> instance creation).
 This is where L<Model|Model>, L<View|View> & L<Controller|Controller> singletons initialization methods are called.
 If you use a subclass of C<< Facade >>, make sure to call C<< SUPER::initializeFacade() >> during C<< Facade >> singleton construction. 
 
-=item *
+=item initializeController
 
-C<< org::puremvc::perl5::patterns::facade::Facade->initializeController() >>
+C<< sub initializeController(); >>
 
 Called by C<< initializeFacade >> method.
 Override this method in your subclass of C<< Facade >> if one or both of the following are true:
@@ -360,9 +364,9 @@ You have L<Commands|SimpleCommand> to register with the L<Controller|Controller>
 
 If you don't want to initialize a different L<Controller|Controller> call C<< SUPER::initializeController() >> at the beginning of your method, then register L<Commands|SimpleCommand>.
 
-=item *
+=item initializeModel
 
-C<< org::puremvc::perl5::patterns::facade::Facade->initializeModel() >>
+C<< sub initializeModel(); >>
 
 Called by C<< initializeFacade >> method.
 Override this method in your subclass of C<< Facade >> if one or both of the following are true:
@@ -383,9 +387,9 @@ If you don't want to initialize a different L<Model|Model> call C<< SUPER::initi
 
 Note: This method is I<rarely> overridden; in practice you are more likely to use a L<Command|SimpleCommand> to create and register L<Proxies|Proxy> with the L<Model|Model>, since L<Proxies|Proxy> with mutable data will likely need to send L<notifications|Notification> and thus will likely want to fetch a reference to the C<< Facade >> during their construction.
 
-=item *
+=item initializeView
 
-C<< org::puremvc::perl5::patterns::facade::Facade->initializeView() >>
+C<< sub initializeView(); >>
 
 Called by C<< initializeFacade >> method.
 Override this method in your subclass of C<< Facade >> if one or both of the following are true:
@@ -406,10 +410,9 @@ If you don't want to initialize a different L<View|View> call C<< SUPER::initial
 
 Note: This method is I<rarely> overridden; in practice you are more likely to use a L<Command|SimpleCommand> to create and register L<Mediators|Mediator> with the L<View|View>, since L<Mediators|Mediator> will likely need to send L<notifications|Notification> and thus will likely want to fetch a reference to the C<< Facade >> during their construction.
 
+=item registerCommand
 
-=item *
-
-C<< org::puremvc::perl5::patterns::facade::Facade->registerCommand( $notification_name, $command_class_ref ) >>
+C<< sub registerCommand( $notification_name, $command_class_ref ); >>
 
 Register a L<Command|SimpleCommand> with the L<Controller|Controller> by L<notification|Notification> name.
 
@@ -419,83 +422,285 @@ C<< $command_class_ref >> is a string holding the name of the L<Command|SimpleCo
 
 Note that there can only be one and only one L<Command|SimpleCommand> registered with the L<Controller|Controller> for a given L<notification|Notification> name. A call to this method will replace any previously registered L<Command|SimpleCommand> for that L<notification|Notification> name.
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::patterns::facade::Facade->removeCommand( $notification_name ) >>
+C<< $notification_name - String >>
+
+Name of the L<notifications|Notification> the registered C<< Command >> will handle.
+
+=item *
+
+C<< $command_class_ref - String >>
+
+Class name of the C<< Command >> to handle L<notification|Notification> called C<< $notification_name >>. 
+
+=back
+
+=item removeCommand
+
+C<< sub removeCommand( $notification_name ); >>
 
 Remove a previously registered L<Command|SimpleCommand> with the L<Controller|Controller> by L<notification|Notification> name.
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::patterns::facade::Facade->hasCommand( $notification_name ) >>
+C<< $notification_name - String >>
+
+Name of the L<notification|Notification> for which to remove a registered L<command|SimpleCommand>.
+
+=back
+
+=item hasCommand
+
+C<< sub hasCommand( $notification_name ); >>
 
 Check if a L<Command|SimpleCommand> is registered with the L<Controller|Controller> by L<Notification|Notification> name.
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::patterns::facade::Facade->registerProxy( $proxy ) >>
+C<< $notification_name - String >>
+
+Name of the L<notification|Notification> for which to check a registered L<command|SimpleCommand>.
+
+=back
+
+B<Returns>
+
+C<< scalar >> - 1 if a L<Command|SimpleCommand> class is registered with the L<Controller|Controller> for L<notifications|Notification> named C<< $notification_name >>, "" otherwise.
+
+=item registerProxy
+
+C<< sub registerProxy( $proxy ); >>
 
 Register a L<Proxy|Proxy> with the L<Model|Model>.
 
 During registration the L<Model|Model> uses C<< Proxy >>'s C<< getProxyName >> method to map the L<Proxy|Proxy> instance to its name. This will serve for retrieval of the L<Proxy|Proxy> instance by its name (see C<< retrieveProxy >> method).
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::patterns::facade::Facade->retrieveProxy( $proxy_name ) >>
+C<< $proxy - org::puremvc::perl5::patterns::proxy::Proxy >>
+
+A L<Proxy|Proxy> instance to register with the C<< Model >>.
+
+=back
+
+=item retrieveProxy
+
+C<< sub retrieveProxy( $proxy_name ); >>
 
 Retrieve a L<Proxy|Proxy> from the L<Model|Model> by name.
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::patterns::facade::Facade->removeProxy( $proxy_name ) >>
+C<< $proxy_name - String >>
+
+Name of the L<proxy|Proxy> to retrieve from the C<< Model >>.
+
+=back
+
+B<Returns>
+
+C<< org::puremvc::perl5::patterns::proxy::Proxy >> - The L<Proxy|Proxy> instance retrieved from the C<< Model >>.
+
+=item removeProxy
+
+C<< sub removeProxy( $proxy_name ); >>
 
 Remove a L<Proxy|Proxy> from the L<Model|Model> by name.
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::patterns::facade::Facade->hasProxy( $proxy_name ) >>
+C<< $proxy_name - String >>
+
+Name of the L<proxy|Proxy> to remove from the C<< Model >>.
+
+=back
+
+B<Returns>
+
+C<< org::puremvc::perl5::patterns::proxy::Proxy >> - The L<Proxy|Proxy> instance removed from the C<< Model >>.
+
+=item hasProxy
+
+C<< sub hasProxy( $proxy_name ); >>
 
 Check if a L<Proxy|Proxy> is registered with the L<Model|Model> by name.
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::patterns::facade::Facade->registerMediator( $mediator ) >>
+C<< $proxy_name - String >>
+
+Name of the L<proxy|Proxy> to check.
+
+=back
+
+B<Returns>
+
+C<< scalar >> - 1 if a L<Proxy|Proxy> instance is registered with the C<< Model >> with name C<< $proxy_name >>, "" otherwise.
+
+=item registerMediator
+
+C<< sub registerMediator( $mediator ); >>
 
 Register a L<Mediator|Mediator> with the L<View|View>.
 
 During registration the L<View|View> uses L<Mediator|Mediator>'s C<< getMediatorName >> method to map the L<Mediator|Mediator> instance to its name. This will serve for retrieval of the L<Mediator|Mediator> instance by its name (see C<< retrieveMediator >> method).
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::patterns::facade::Facade->retrieveMediator( $mediator_name ) >>
+C<< $mediator - org::puremvc::perl5::patterns::mediator::Mediator >>
+
+A L<Mediator|Mediator> instance to register with the C<< View >>.
+
+=back
+
+=item retrieveMediator
+
+C<< sub retrieveMediator( $mediator_name ); >>
 
 Retrieve a L<Mediator|Mediator> from the L<View|View> by name.
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::patterns::facade::Facade->removeMediator( $mediator_name ) >>
+C<< $mediator_name - String >>
+
+Name of the L<mediator|Mediator> to retrieve from the C<< View >>.
+
+=back
+
+B<Returns>
+
+C<< org::puremvc::perl5::patterns::mediator::Mediator >> - The L<Mediator|Mediator> instance retrieved from the C<< View >>.
+
+=item removeMediator
+
+C<< sub removeMediator( $mediator_name ); >>
 
 Remove a L<Mediator|Mediator> from the L<View|View> by name.
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::patterns::facade::Facade->hasMediator( $mediator_name ) >>
+C<< $mediator_name - String >>
+
+Name of the L<mediator|Mediator> to remove from the C<< View >>.
+
+=back
+
+B<Returns>
+
+C<< org::puremvc::perl5::patterns::mediator::Mediator >> - The L<Mediator|Mediator> instance removed from the C<< View >>.
+
+=item hasMediator
+
+C<< sub hasMediator( $mediator_name ); >>
 
 Check if a L<Mediator|Mediator> is registered with the L<View|View> by name.
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::patterns::facade::Facade->sendNotification( $notification_name, $body, $type ) >>
+C<< $mediator_name - String >>
+
+Name of the L<mediator|Mediator> to check.
+
+=back
+
+B<Returns>
+
+C<< scalar >> - 1 if a L<Mediator|Mediator> instance is registered with the C<< View >> with name C<< $mediator_name >>, "" otherwise.
+
+=item sendNotification
+
+C<< sub sendNotification( $notification_name, $body, $type ); >>
 
 Keeps us from having to construct new L<Notification|Notification> objects in our implementation code.
 
 This method will construct a new L<Notification|Notification> named C<< $notification_name >> with optional C<< $body >> and C<< $type >> parameters. 
 
+B<Parameters>
+
+=over 8
+
 =item *
 
-C<< org::puremvc::perl5::patterns::facade::Facade->notifyObservers( $notification ) >>
+C<< $notification_name - String >>
+
+Name of the constructed L<Notification|Notification> instance.
+
+=item *
+
+C<< $body - * >>
+
+Body or (business data) of the L<notification|Notification>. Can be any object or scalar. - Optional
+
+=item *
+
+C<< $type - * >>
+
+Type of the L<notification|Notification>. This data can be useful to distinguish several types of the same C<< Notification >>. Usually is a string but could be any other object or scalar. - Optional
+
+=back
+
+=item notifyObservers
+
+C<< sub notifyObservers( $notification ); >>
 
 You should not have to use this method ; instead use C<< sendNotification >> method to notify registered L<observers|Observer> for C<< $notification >>.
+
+B<Parameters>
+
+=over 8
+
+=item *
+
+C<< $notification - org::puremvc::perl5::patterns::observer::Notification >>
+
+Instance of L<Notification|Notification> the observers will receive as a parameter when notified.
+
+=back
 
 =back
 
@@ -503,21 +708,15 @@ You should not have to use this method ; instead use C<< sendNotification >> met
 
 =over 4
 
-=item *
-
-C<< _model >>
+=item _model
 
 Holds the L<Model|Model> singleton instance of the application. You should not have to access it and I<must not> update it in normal usage.
 
-=item *
-
-C<< _view >>
+=item _view
 
 Holds the L<View|View> singleton instance of the application. You should not have to access it and I<must not> update it in normal usage.
 
-=item *
-
-C<< _controller >>
+=item _controller
 
 Holds the L<Controller|Controller> singleton instance of the application. You should not have to access it and I<must not> update it in normal usage.
 
