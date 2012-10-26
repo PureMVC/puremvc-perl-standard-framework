@@ -15,7 +15,7 @@ Production - [Version 1.0](https://github.com/PureMVC/puremvc-perl-standard-fram
 * [Perl](http://en.wikipedia.org/wiki/Perl)
 
 ## License
-* PureMVC Standard Framework for Perl (Ported) - Copyright © 2006 Frederic Sullet  
+* PureMVC Standard Framework for Perl (Ported) - Copyright © 2011 Frederic Sullet  
 * PureMVC - Copyright © 2006-2012 Futurescale, Inc.
 * All rights reserved.
 
