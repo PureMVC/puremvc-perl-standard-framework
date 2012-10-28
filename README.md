@@ -8,6 +8,9 @@ Unit tests are included in this repository.
 * [Live Unit Test Runner](http://darkstar.puremvc.org/content_header.html?url=http://puremvc.org/pages/demos/Perl/unit_tests/TestRunner.swf&desc=Unit%20Tests:%20PureMVC%20Standard%20for%20Perl)
 * [Overview Presentation](http://puremvc.tv/#P100)
 
+## Utilities
+* [State Machine](https://github.com/PureMVC/puremvc-perl-util-statemachine/wiki)
+
 ## Status
 Production - [Version 1.0](https://github.com/PureMVC/puremvc-perl-standard-framework/blob/master/VERSION)
 
