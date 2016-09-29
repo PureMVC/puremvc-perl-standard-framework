@@ -1,4 +1,6 @@
 ## [PureMVC](http://puremvc.github.com/) Perl Standard Framework
+
+[![Join the chat at https://gitter.im/PureMVC/puremvc-perl-standard-framework](https://badges.gitter.im/PureMVC/puremvc-perl-standard-framework.svg)](https://gitter.im/PureMVC/puremvc-perl-standard-framework?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 PureMVC is a lightweight framework for creating applications based upon the classic [Model-View-Controller](http://en.wikipedia.org/wiki/Model-view-controller) design meta-pattern. This is a Perl port of the [AS3 reference implementation of the MultiCore Version](https://github.com/PureMVC/puremvc-as3-multicore-framework/wiki). It does not support modular programming since it uses [Singleton](http://en.wikipedia.org/wiki/Singleton_pattern)s as Core actors rather than the [Multiton](http://en.wikipedia.org/wiki/Multiton)s used in the [MultiCore](https://github.com/PureMVC/puremvc-perl-multicore-framework/wiki/) Version.
 
 Unit tests are included in this repository.
