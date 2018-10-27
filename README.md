@@ -3,9 +3,9 @@ PureMVC is a lightweight framework for creating applications based upon the clas
 
 Unit tests are included in this repository.
 
-* [API Docs](http://darkstar.puremvc.org/content_header.html?url=http://puremvc.org/pages/docs/Perl/perldoc/&desc=PureMVC%20API%20Docs:%20PureMVC%20Standard%20for%20Perl)
+* [API Docs](http://puremvc.org/pages/docs/Perl/perldoc/)
 * [Discussion](http://forums.puremvc.org/index.php?board=89.0)
-* [Live Unit Test Runner](http://darkstar.puremvc.org/content_header.html?url=http://puremvc.org/pages/demos/Perl/unit_tests/TestRunner.swf&desc=Unit%20Tests:%20PureMVC%20Standard%20for%20Perl)
+* [Live Unit Test Runner](http://puremvc.org/pages/demos/Perl/unit_tests/TestRunner.swf)
 * [Overview Presentation](http://puremvc.tv/#P100)
 
 ## Utilities
